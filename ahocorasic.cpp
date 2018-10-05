@@ -9,8 +9,12 @@
 #include <iostream>
 #include <cstring>
 
-/* TODO implement DP for finding failure node. */
-/* TODO depth may be removed on submission: depth is just for printing the result on current status. */
+/* 
+ * TODO implement DP for finding failure node.
+ * TODO depth may be removed on submission:
+ * depth is just for printing the result on current status.
+ * when doing so, 'output' should be changed to 'keyword number'.
+ */
 
 /**
  * Constructor of AhoTreeNode.
