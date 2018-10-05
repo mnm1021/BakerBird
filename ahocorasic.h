@@ -21,6 +21,7 @@ public:
 	AhoTreeNode (void);
 	~AhoTreeNode (void);
 	void insert (const char*);
+	int is_output (void);
 };
 
 void set_failure (AhoTreeNode* root);
