@@ -13,14 +13,13 @@
 class AhoTreeNode
 {
 public:
-	AhoTreeNode* child[NUM_CHILD];
-	AhoTreeNode* failure;
-	bool output;
-	int depth;
+	AhoTreeNode* child[NUM_CHILD]; /* 'next' node */
+	AhoTreeNode* failure; /* failure node */
+	int output; /* output number */
 
 	AhoTreeNode (void);
 	~AhoTreeNode (void);
-	void insert (const char*);
+	int insert (const char*);
 	int is_output (void);
 };
 

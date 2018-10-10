@@ -9,12 +9,7 @@
 #include <iostream>
 #include <cstring>
 
-/* 
- * TODO implement DP for finding failure node.
- * TODO depth may be removed on submission:
- * depth is just for printing the result on current status.
- * when doing so, 'output' should be changed to 'keyword number'.
- */
+int output_num = 1; /* output number of node */
 
 /**
  * Constructor of AhoTreeNode.
@@ -26,7 +21,7 @@ AhoTreeNode::AhoTreeNode ()
 		child[i] = NULL;
 	}
 	failure = NULL;
-	output = false;
+	output = 0;
 }
 
 /**
@@ -47,13 +42,20 @@ AhoTreeNode::~AhoTreeNode ()
  * Inserting a key string to given ahocorasic FSM.
  *
  * @param string:	key string to find
+ * @return:			output number
  */
-void AhoTreeNode::insert (const char* string)
+int AhoTreeNode::insert (const char* string)
 {
 	/* if it points the end of string, set output. */
 	if (*string == 0)
 	{
-		output = true;
+		if (output == 0)
+		{
+			output = output_num;
+			output_num += 1;
+		}
+
+		return output;
 	}
 	else
 	{
@@ -71,13 +73,13 @@ void AhoTreeNode::insert (const char* string)
 /**
  * figures out whether this node is matched or not
  *
- * @return:		depth of 'output' node. -1 if none.
+ * @return:		output number. 0 if none.
  */
 int AhoTreeNode::is_output ()
 {
-	if (output)
+	if (output != 0)
 	{
-		return depth;
+		return output;
 	}
 
 	AhoTreeNode* current = failure;
@@ -85,15 +87,15 @@ int AhoTreeNode::is_output ()
 	/* track through failure */
 	while (current != current->failure)
 	{
-		if (current->output)
+		if (current->output != 0)
 		{
-			return current->depth;
+			return current->output;
 		}
 
 		current = current->failure;
 	}
 
-	return -1;
+	return 0;
 }
 
 /**
@@ -106,7 +108,6 @@ void set_failure (AhoTreeNode* root)
 	std::queue<AhoTreeNode*> bfs_queue;
 
 	root->failure = root;
-	root->depth = 0;
 	bfs_queue.push (root);
 
 	/* set every node's failure node by BFS. */
@@ -125,15 +126,12 @@ void set_failure (AhoTreeNode* root)
 				continue;
 			}
 
-			/* set depth of current node */
-			current->depth = node->depth + 1;
-
 			if (node == root)
 			{
 				/* root's child goes back to root. */
 				current->failure = root;
 			}
-			else /* TODO implement DP on finding failure node */
+			else
 			{
 				/* track back failure nodes. */
 				AhoTreeNode* dest = node->failure;
@@ -194,15 +192,10 @@ void ahocorasic_search_keywords (AhoTreeNode* root, const char* input)
 		}
 
 		/* figure out if current status is on output or not. */
-		int depth = current->is_output ();
-		if (depth != -1)
+		int output_num = current->is_output ();
+		if (output_num != 0)
 		{
-			/* print keyword if current node is accepted output. */
-			for (int idx = i - depth + 1; idx <= i; ++idx)
-			{
-				std::cout << input[idx];
-			}
-			std::cout << std::endl;
+			std::cout << "key " << output_num << " is found at index " << i << std::endl;
 		}
 	}
 }
@@ -214,12 +207,11 @@ int main()
 {
 	AhoTreeNode* root;
 	root = new AhoTreeNode ();
-	std::cout << "keywords are: aabba, aaabb, ababa, aabba, aaabb" << std::endl;
-	root->insert ("aabba");
-	root->insert ("aaabb");
-	root->insert ("ababa");
-	root->insert ("aabba");
-	root->insert ("aaabb");
+	std::cout << "'aabba' inserted as key " << root->insert ("aabba") << std::endl;
+	std::cout << "'aaabb' inserted as key " << root->insert ("aaabb") << std::endl;
+	std::cout << "'ababa' inserted as key " << root->insert ("ababa") << std::endl;
+	std::cout << "'aabba' inserted as key " << root->insert ("aabba") << std::endl;
+	std::cout << "'aaabb' inserted as key " << root->insert ("aaabb") << std::endl;
 	set_failure (root);
 	std::cout << "testing 'aabbaaabba'" << std::endl;
 	ahocorasic_search_keywords (root, "aabbaaabba");
