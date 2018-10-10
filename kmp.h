@@ -19,7 +19,7 @@ int pi[MAX_INPUT_LENGTH];
  *
  * @param key: 		key string to find.
  */
-static void set_pi (const char* key)
+void set_pi (const char* key)
 {
 	int length = strlen (key);
 	int i, j = 0;
@@ -53,8 +53,6 @@ std::vector<int> kmp (const char* input, const char* key)
 	int length = strlen (input);
 	int key_length = strlen (key);
 
-	set_pi (key);
-
 	for (int i = 0; i < length; ++i)
 	{
 		while (status > 0 && input[i] != key[status])
@@ -73,6 +71,30 @@ std::vector<int> kmp (const char* input, const char* key)
 	}
 
 	return output;
+}
+
+/**
+ * perform kmp operation 1 step.
+ * 
+ * @param input: 	input character.
+ * @param key: 		key string to find.
+ * @param status:	current status.
+ * @return:			result status.
+ */
+int kmp_step (char input, const char* key, int status)
+{
+	std::vector<int> output;
+
+	while (status > 0 && input != key[status])
+	{
+		status = pi[status - 1];
+	}
+	if (status > 0 || input == key[status])
+	{
+		++status;
+	}
+
+	return status;
 }
 
 #endif // __KMP_H__

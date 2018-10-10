@@ -15,13 +15,14 @@ using namespace std;
  */
 int main()
 {
-	char pattern[101][101];
-	char input[101][101];
+	char input[100][101];
+	char pattern[101];
 	char column_pattern[101];
-	char column[101];
-	vector<char> R[100];
+	int kmp_status[100];
 	AhoTreeNode* root;
 	int pattern_length, input_length;
+
+	memset (kmp_status, 0, sizeof(int) * 100);
 
 	/* get input of pattern and input string length. */
 	cin >> pattern_length >> input_length;
@@ -32,34 +33,29 @@ int main()
 	/* get pattern from user, and create Aho-Corasic tree. */
 	for (int i = 0; i < pattern_length; ++i)
 	{
-		cin >> pattern[i];
-		column_pattern[i] = root->insert (pattern[i]) + '0';
+		cin >> pattern;
+		column_pattern[i] = root->insert (pattern) + '0';
 	}
 	column_pattern[pattern_length] = 0;
 
-	/* set failure node. */
+	/* set failures for ahocorasic and kmp. */
 	set_failure (root);
+	set_pi (column_pattern);
 
-	/* get input string from user, and get Rs. */
+	/* get input string from user, get R, and perform KMP 1 step each. */
 	for (int i = 0; i < input_length; ++i)
 	{
 		cin >> input[i];
-		R[i] = ahocorasic_search_keywords (root, input[i]);
-	}
+		vector<char> R = ahocorasic_search_keywords (root, input[i]);
 
-	/* search column_pattern from the columns of R by KMP algorithm. */
-	for (int i = 0; i < input_length; ++i)
-	{
 		for (int j = 0; j < input_length; ++j)
 		{
-			column[j] = R[j][i]; /* TODO remove redundant operations by 2D array */
-		}
-		column[input_length] = 0;
-
-		vector<int> result = kmp (column, column_pattern);
-		for (int j = 0; j < result.size (); ++j)
-		{
-			cout << result[j] << " " << i << endl;
+			kmp_status[j] = kmp_step (R[j], column_pattern, kmp_status[j]);
+			if (kmp_status[j] == strlen (column_pattern))
+			{
+				cout << i << " " << j << endl;
+				kmp_status[j] = pi[kmp_status[j] - 1];
+			}
 		}
 	}
 

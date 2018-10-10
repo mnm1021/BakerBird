@@ -12,6 +12,7 @@
  */
 int main()
 {
+	set_pi ("aba");
 	std::vector<int> result = kmp ("ababacacababa", "aba");
 	std::cout << "finding 'aba' in 'ababacacababa'" << std::endl;
 	for (int i = 0; i < result.size (); ++i)
