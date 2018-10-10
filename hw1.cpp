@@ -14,7 +14,7 @@ using namespace std;
 /**
  * baker-bird algorithm implementation for hw1.
  */
-int main(int argc, char** argv)
+int main (int argc, char** argv)
 {
 	char input[100][101];
 	char pattern[101];

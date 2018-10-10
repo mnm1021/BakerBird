@@ -9,7 +9,12 @@ kmp: kmp.cpp kmp.h
 hw1: hw1.cpp ahocorasic.h kmp.h
 	g++ -o hw1 hw1.cpp
 
+checker: checker.cpp
+	g++ -o checker checker.cpp
+
 clean:
 	rm ahocorasic
 	rm kmp
 	rm hw1
+	rm checker
+
