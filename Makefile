@@ -1,4 +1,4 @@
-all: ahocorasic kmp
+all: ahocorasic kmp hw1
 
 ahocorasic: ahocorasic.cpp ahocorasic.h
 	g++ -o ahocorasic ahocorasic.cpp
@@ -6,5 +6,10 @@ ahocorasic: ahocorasic.cpp ahocorasic.h
 kmp: kmp.cpp kmp.h
 	g++ -o kmp kmp.cpp
 
+hw1: hw1.cpp ahocorasic.h kmp.h
+	g++ -o hw1 hw1.cpp
+
 clean:
-	rm ahocorasic kmp
+	rm ahocorasic
+	rm kmp
+	rm hw1

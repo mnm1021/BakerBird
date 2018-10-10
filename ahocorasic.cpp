@@ -21,23 +21,26 @@ int main()
 	std::cout << "'aaabb' inserted as key " << root->insert ("aaabb") << std::endl;
 	set_failure (root);
 	std::cout << "testing 'aabbaaabba'" << std::endl;
-	std::vector< std::pair<int, int> > rslt = ahocorasic_search_keywords (root, "aabbaaabba");
+	std::vector<char> rslt = ahocorasic_search_keywords (root, "aabbaaabba");
 	for (int i = 0; i < rslt.size (); ++i)
 	{
-		std::cout << rslt[i].first << " found at " << rslt[i].second << std::endl;
+		std::cout << rslt[i];
 	}
+	std::cout << std::endl;
 	std::cout << "testing 'aaabbaaabb'" << std::endl;
 	rslt = ahocorasic_search_keywords (root, "aaabbaaabb");
 	for (int i = 0; i < rslt.size (); ++i)
 	{
-		std::cout << rslt[i].first << " found at " << rslt[i].second << std::endl;
+		std::cout << rslt[i];
 	}
+	std::cout << std::endl;
 	std::cout << "testing 'ababababa'" << std::endl;
 	rslt = ahocorasic_search_keywords (root, "ababababa");
 	for (int i = 0; i < rslt.size (); ++i)
 	{
-		std::cout << rslt[i].first << " found at " << rslt[i].second << std::endl;
+		std::cout << rslt[i];
 	}
+	std::cout << std::endl;
 	delete root;
 	return 0;
 }

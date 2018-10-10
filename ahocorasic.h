@@ -8,7 +8,6 @@
 #define __AHOCORASIC_H__
 
 #include <vector>
-#include <utility>
 #include <queue>
 #include <cstring>
 
@@ -175,14 +174,13 @@ void set_failure (AhoTreeNode* root)
  *
  * @param root:		root node of Aho-Corasic FSM.
  * @param input:	input string.
- * @return:			vector of pair of (key number, index).
+ * @return:			vector of detection. ex) 0001002
  */
-std::vector< std::pair<int, int> > ahocorasic_search_keywords (
-		AhoTreeNode* root, const char* input)
+std::vector<char> ahocorasic_search_keywords (AhoTreeNode* root, const char* input)
 {
 	AhoTreeNode* current = root;
 	int length = strlen (input);
-	std::vector< std::pair<int, int> > result;
+	std::vector<char> result;
 
 	for (int i = 0; i < length; ++i)
 	{
@@ -208,12 +206,8 @@ std::vector< std::pair<int, int> > ahocorasic_search_keywords (
 			}
 		}
 
-		/* figure out if current status is on output or not. */
-		int output_num = current->is_output ();
-		if (output_num != 0)
-		{
-			result.push_back (std::make_pair (output_num, i));
-		}
+		/* add output number to result. */
+		result.push_back (current->is_output () + '0');
 	}
 	
 	return result;
