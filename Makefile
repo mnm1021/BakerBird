@@ -1,4 +1,4 @@
-all: ahocorasic kmp hw1
+all: ahocorasic kmp hw1 checker
 
 ahocorasic: ahocorasic.cpp ahocorasic.h
 	g++ -o ahocorasic ahocorasic.cpp
